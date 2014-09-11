@@ -1,0 +1,17 @@
+{
+  "name": "remote-vim",
+  "version": "0.0.0",
+  "description": "Control vim remote servers from node.",
+  "main": "index.js",
+  "scripts": {
+    "test": "node ./example.js"
+  },
+  "author": "Alberto Pose <albertopose@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "async": "^0.9.0"
+  },
+  "devDependencies": {
+    "uuid": "^1.4.1"
+  }
+}
