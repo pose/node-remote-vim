@@ -39,7 +39,7 @@ create('myvim', function (err, vim) {
 });
 ```
 
-Each vim instance handles the following methods:
+vim instances have the following methods:
 
   * `open(path,[line,]cb)`: Open `path` at `line`. `cb: func (err) { }`.
   * `expr(path, cb)`: Evaluate expression. `cb: func (err, result) { }`.
