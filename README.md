@@ -21,7 +21,7 @@ var create = require('remote-vim').create;
 ls(function (err, vims) {
   if (err) { throw err; }
   vims.forEach(function (vim) {
-    console.log('vim instance named "' + vim.id + '" running at "' + vim.cwd '");
+    console.log('vim instance named "' + vim.id + '" running at "' + vim.cwd + '"');
   });
 });
 ```
@@ -29,7 +29,7 @@ ls(function (err, vims) {
 `create`: Create a new vim server.
 
 ```js
-create(function (err, vim) {
+create('myvim', function (err, vim) {
   if (err) { throw err; }
   
   // Gets first command from history
