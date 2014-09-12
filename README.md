@@ -1,4 +1,4 @@
-This node module controls vim servers (or instances) programmatically. You can think this module as the Node.js equivalent of [vimrunner](https://github.com/AndrewRadev/vimrunner).
+Control vim servers (or instances) programmatically. You can think this module as the Node.js equivalent of [vimrunner](https://github.com/AndrewRadev/vimrunner).
 
 ### Install
 
