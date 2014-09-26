@@ -29,7 +29,7 @@ Vim.prototype.open = function (path, line, cb) {
     cb = line;
     line = 0;
   }
-  var ref = spawn(vimPath, ['--servername', this.id, '--remote-tab', '+' + line, path]); 
+  var ref = spawn(vimPath, ['--servername', this.id, '--remote-tab', '+' + line, path]);
 
   ref.on('error', function (err) {
     cb(err);
@@ -48,7 +48,7 @@ Vim.prototype.open = function (path, line, cb) {
  * @public
  *
  * @param {String}   [expr]  expression to execute.
- * @param {Function} [cb]    callback : function (err, returnValue) { }
+ * @param {Function} [cb]    callback : function (err, returnValue) { }
  *
  * @example
  *
@@ -85,7 +85,7 @@ Vim.prototype.expr = function (expr, cb) {
  * @public
  *
  * @param {String}   [keys]  keys to type.
- * @param {Function} [cb]    callback : function (err) { }
+ * @param {Function} [cb]    callback : function (err) { }
  *
  * @example
  *
@@ -115,7 +115,7 @@ Vim.prototype.sendKeys = function (keys, cb) {
  * @public
  *
  * @param {Boolean}  [force=false]  force exit (using !).
- * @param {Function} [cb]           callback : function (err) { }
+ * @param {Function} [cb]           callback : function (err) { }
  *
  */
 Vim.prototype.exit = function (force, cb) {
@@ -145,7 +145,7 @@ function enrichVimData(vimServerHandler, cb) {
  *
  * @param {String}   [servername]   Name of the new Vim.
  * @param {String}   [path='']      Path to first file to open.
- * @param {Function} [cb]           callback : function (err, vim) { }
+ * @param {Function} [cb]           callback : function (err, vim) { }
  *
  */
 exports.create = function create(servername, path, cb) {
@@ -153,7 +153,7 @@ exports.create = function create(servername, path, cb) {
     cb = path;
     path = '';
   }
-  var ref = spawn(vimPath, ['--servername', servername, '--startuptime', '/dev/stdout', path || ''], {detached: true, stdio: ['ignore', 'pipe', 'ignore']}); 
+  var ref = spawn(vimPath, ['--servername', servername, '--startuptime', '/dev/stdout', path || ''], {detached: true, stdio: ['ignore', 'pipe', 'ignore']});
 
 
   function dataHandler(data) {
@@ -189,7 +189,7 @@ exports.create = function create(servername, path, cb) {
  * @static
  * @public
  *
- * @param {Function} [cb]   callback : function (err, arrayOfVims) { }
+ * @param {Function} [cb]   callback : function (err, arrayOfVims) { }
  *
  */
 exports.ls = function ls(cb) {
