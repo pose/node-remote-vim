@@ -1,7 +1,12 @@
-var async = require('async');
+var fs = require('fs');
 var spawn = require('child_process').spawn;
 
+var temp = require('temp');
+var async = require('async');
+
 var vimPath = '/usr/local/bin/mvim';
+
+temp.track();
 
 /**
  * Create a new Vim instance
@@ -136,6 +141,19 @@ function enrichVimData(vimServerHandler, cb) {
   });
 }
 
+function createAndTouchTempFile(cb) {
+  // Create a startup log file to search for "--- VIM STARTED ---"
+  // string which indicates vim started.
+  temp.open('node-remote-vim', function (err, info) {
+    if (err) { return cb(err); }
+    fs.write(info.fd, '');
+    fs.close(info.fd, function(err) {
+      if (err) { return cb(err); }
+      cb(null, info.path);
+    });
+  });
+}
+
 /**
  *
  * Launch a Vim instance.
@@ -153,33 +171,38 @@ exports.create = function create(servername, path, cb) {
     cb = path;
     path = '';
   }
-  var ref = spawn(vimPath, ['--servername', servername, '--startuptime', '/dev/stdout', path || ''], {detached: true, stdio: ['ignore', 'pipe', 'ignore']});
 
+  createAndTouchTempFile(function (err, startupLogPath) {
+    if (err) { return cb(err); }
 
-  function dataHandler(data) {
-    data = data.toString();
-    if (/--- VIM STARTED ---/.test(data)) {
-      ref.stdout.removeListener('data', dataHandler);
-      ref.stdout.unref();
-      if (!path) {
-        enrichVimData(servername, function (err, vim) {
-          if (err) { return cb(err); }
-          cb(null, vim);
-        });
-        return;
-      }
-      return cb(null, new Vim(servername, path));
+    var watcher;
+    function watch () {
+      fs.readFile(startupLogPath, function (err, data) {
+        // TODO Improve me
+        data = data.toString();
+
+        if (/--- VIM STARTED ---/.test(data)) {
+          watcher.close();
+          if (!path) {
+            return enrichVimData(servername, function (err, vim) {
+              if (err) { return cb(err); }
+              cb(null, vim);
+            });
+          }
+          return cb(null, new Vim(servername, path));
+        }
+      });
     }
-  }
 
-  ref.stdout.on('data', dataHandler);
+    var ref = spawn(vimPath, ['--servername', servername, '--startuptime', startupLogPath, path || ''], {detached: true, stdio: 'ignore'});
 
-  ref.on('error', function (err) {
-    ref.stdout.removeListener('data', dataHandler);
-    ref.stdout.unref();
-    cb(err);
+    watcher = fs.watch(startupLogPath, watch);
+
+    ref.on('error', function (err) {
+      watcher.close();
+      cb(err);
+    });
   });
-
 };
 
 /**
