@@ -1,6 +1,6 @@
 {
   "name": "remote-vim",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Control vim remote servers from node.",
   "main": "index.js",
   "scripts": {
