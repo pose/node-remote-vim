@@ -14,5 +14,18 @@
   },
   "devDependencies": {
     "uuid": "^1.4.1"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/pose/node-vim-remote.git"
+  },
+  "keywords": [
+    "vim",
+    "macvim",
+    "remote"
+  ],
+  "bugs": {
+    "url": "https://github.com/pose/node-vim-remote/issues"
+  },
+  "homepage": "https://github.com/pose/node-vim-remote"
 }
