@@ -166,6 +166,9 @@ function createAndTouchTempFile(cb) {
  * @param {Function} [cb]           callback : function (err, vim) { }
  *
  */
+// TODO cwd directory != path directory. Create a way of setting
+// cwd. Remove path as argument and replace it by cwd (where spawn
+// executes the command).
 exports.create = function create(servername, path, cb) {
   if (cb === undefined) {
     cb = path;
